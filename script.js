@@ -301,6 +301,8 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
 });
+
+
 document.querySelector('#contactForm').addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -313,12 +315,43 @@ document.querySelector('#contactForm').addEventListener('submit', async (e) => {
     message: document.querySelector('#message').value
   };
 
-  const response = await fetch('/.netlify/functions/send-email', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(formData)
-  });
+  try {
+    const response = await fetch('/.netlify/functions/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    });
 
-  const result = await response.json();
-  alert(result.message || result.error);
+    const result = await response.json();
+
+    if (response.ok) {
+      showNotification("Your message has been received. I will get back to you soon.");
+      document.querySelector('#contactForm').reset();
+    } else {
+      showNotification(result.error || "Something went wrong. Please try again.", true);
+    }
+
+  } catch (err) {
+    showNotification("Network error. Please try again later.", true);
+  }
 });
+
+function showNotification(message, isError = false) {
+  const notification = document.getElementById('notification');
+  notification.textContent = message;
+
+  // Set background color based on type
+  notification.style.background = isError
+    ? 'linear-gradient(135deg, #ff4d4d, #ff7a00)' // error (red-orange)
+    : 'linear-gradient(135deg, #00a86b, #ff7a00)'; // success (green-orange)
+
+  // Show animation
+  notification.classList.remove('hide');
+  notification.classList.add('show');
+
+  // Hide after 3 seconds with fade-out animation
+  setTimeout(() => {
+    notification.classList.remove('show');
+    notification.classList.add('hide');
+  }, 3000);
+}
