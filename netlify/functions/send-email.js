@@ -18,7 +18,7 @@ exports.handler = async function(event, context) {
         const emailData = {
             sender: {
                 name: 'Portfolio Contact Form',
-                email: 'liltk0998@gmail.com' // Use your verified sender email
+                email: 'liltk0998@gmail.com' // ← CHANGE THIS to a verified sender
             },
             to: [
                 {
@@ -26,7 +26,11 @@ exports.handler = async function(event, context) {
                     name: 'Lil Tk'
                 }
             ],
-            subject: `New Contact: ${subject}`,
+            replyTo: {
+                email: email, // So you can reply directly to the person who filled the form
+                name: name
+            },
+            subject: `New Portfolio Contact: ${subject}`,
             htmlContent: `
                 <!DOCTYPE html>
                 <html>
@@ -78,6 +82,8 @@ exports.handler = async function(event, context) {
             `
         };
 
+        console.log('Sending email with data:', JSON.stringify(emailData, null, 2));
+
         const response = await fetch(BREVO_URL, {
             method: 'POST',
             headers: {
@@ -88,21 +94,29 @@ exports.handler = async function(event, context) {
             body: JSON.stringify(emailData)
         });
 
+        const responseData = await response.json();
+        console.log('Brevo API Response:', response.status, responseData);
+
         if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || 'Failed to send email');
+            throw new Error(responseData.message || `Brevo API error: ${response.status}`);
         }
 
         return {
             statusCode: 200,
-            body: JSON.stringify({ message: 'Email sent successfully' })
+            body: JSON.stringify({ 
+                message: 'Email sent successfully',
+                brevoResponse: responseData 
+            })
         };
 
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Error in send-email function:', error);
         return {
             statusCode: 500,
-            body: JSON.stringify({ error: error.message || 'Internal server error' })
+            body: JSON.stringify({ 
+                error: error.message || 'Internal server error',
+                details: 'Check Netlify function logs for more information'
+            })
         };
     }
 };

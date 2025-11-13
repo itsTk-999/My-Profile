@@ -301,3 +301,24 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
 });
+document.querySelector('#contactForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const formData = {
+    name: document.querySelector('#name').value,
+    email: document.querySelector('#email').value,
+    phone: document.querySelector('#phone').value,
+    company: document.querySelector('#company').value,
+    subject: document.querySelector('#subject').value,
+    message: document.querySelector('#message').value
+  };
+
+  const response = await fetch('/.netlify/functions/send-email', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(formData)
+  });
+
+  const result = await response.json();
+  alert(result.message || result.error);
+});
