@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Lil Tk</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00A86B;
+            --accent: #FF7A00;
+            --secondary: #0077CC;
+            --background: #f8f9fa;
+            --text: #333333;
+            --card-bg: #ffffff;
+            --header-bg: #ffffff;
+            --footer-bg: #e9ecef;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        .dark-mode {
+            --background: #121212;
+            --text: #f0f0f0;
+            --card-bg: #1e1e1e;
+            --header-bg: #1a1a1a;
+            --footer-bg: #0d0d0d;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            transition: var(--transition);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--header-bg);
+            box-shadow: var(--shadow);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            color: var(--accent);
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        .mobile-close {
+  display: none;
+}
+
+        /* Enhanced Mobile Menu with Smooth Slide Animation */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: flex;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 50%;
+                height: 100vh;
+                background-color: var(--header-bg);
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+                padding: 80px 20px 20px;
+                flex-direction: column;
+                z-index: 999;
+                transform: translateX(-100%);
+                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                overflow-y: auto;
+            }
+
+            .nav-links.active {
+                transform: translateX(0);
+                box-shadow: 2px 0 20px rgba(0, 0, 0, 0.15);
+            }
+
+            .nav-links li {
+                margin: 0;
+                padding: 0;
+                opacity: 0;
+                transform: translateX(-20px);
+                transition: all 0.3s ease;
+                transition-delay: calc(0.1s * var(--i));
+                border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            }
+
+            .nav-links.active li {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            .nav-links li:last-child {
+                border-bottom: none;
+                margin-top: 20px;
+                padding-top: 20px;
+                border-top: 1px solid rgba(0, 0, 0, 0.08);
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 15px;
+                font-size: 1.1rem;
+                color: var(--text);
+                transition: all 0.3s ease;
+                border-radius: 8px;
+                margin: 2px 0;
+            }
+
+            .nav-links a:hover {
+                background-color: rgba(0, 168, 107, 0.15);
+                color: var(--primary);
+                transform: translateX(5px);
+            }
+
+            .nav-links a.active {
+                background-color: rgba(0, 168, 107, 0.2);
+                color: var(--primary);
+                font-weight: 600;
+            }
+
+            .mobile-close {
+                position: absolute;
+                display: block;
+                top: 25px;
+                right: 20px;
+                background: none;
+                border: none;
+                font-size: 1.5rem;
+                color: var(--text);
+                cursor: pointer;
+                z-index: 1001;
+                padding: 5px;
+                border-radius: 50%;
+                transition: all 0.3s ease;
+            }
+
+            .mobile-close:hover {
+                background-color: rgba(0, 0, 0, 0.1);
+                transform: rotate(90deg);
+            }
+
+            .nav-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 998;
+                backdrop-filter: blur(2px);
+                transition: opacity 0.3s ease;
+            }
+
+            .nav-overlay.active {
+                display: block;
+                animation: fadeIn 0.3s ease;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+        }
+
+        /* Set transition delays for menu items */
+        .nav-links li:nth-child(1) { --i: 1; }
+        .nav-links li:nth-child(2) { --i: 2; }
+        .nav-links li:nth-child(3) { --i: 3; }
+        .nav-links li:nth-child(4) { --i: 4; }
+        .nav-links li:nth-child(5) { --i: 5; }
+        .nav-links li:nth-child(6) { --i: 6; }
+        .nav-links li:nth-child(7) { --i: 7; }
+
+        /* For very small screens */
+        @media (max-width: 480px) {
+            .nav-links {
+                width: 70%;
+            }
+        }
+
+        /* Portfolio Section */
+        .portfolio-page {
+            padding: 150px 0 80px;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 60px;
+            color: var(--secondary);
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .page-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary);
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+/* Project Card Background Colors */
+.portfolio-item:nth-child(1) {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+.portfolio-item:nth-child(2) {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+.portfolio-item:nth-child(3) {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+.portfolio-item:nth-child(4) {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+.portfolio-item:nth-child(5) {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+.portfolio-item:nth-child(6) {
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+}
+
+
+        .portfolio-item {
+            min-width:350px ;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .portfolio-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .portfolio-content {
+            background-color: var(--card-bg);
+            margin: 15px;
+  border-radius: 10px;
+            padding: 20px;
+        }
+
+        .portfolio-content h3 {
+            color: var(--secondary);
+            margin-bottom: 10px;
+            
+        }
+
+        .portfolio-content p {
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+
+        .portfolio-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .tag {
+            background-color: rgba(0, 168, 107, 0.1);
+            color: var(--primary);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .portfolio-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .portfolio-links a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .portfolio-links a:hover {
+            color: var(--primary);
+        }
+
+        .portfolio-links i {
+            margin-right: 5px;
+        }
+
+        .back-link {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .back-btn {
+            background-color: var(--secondary);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .back-btn:hover {
+            background-color: #0055aa;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 119, 204, 0.3);
+        }
+
+        .back-btn i {
+            margin-right: 8px;
+        }
+
+        /* Admin Controls */
+        .admin-controls {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+            display: none;
+        }
+
+        .admin-controls h3 {
+            color: var(--secondary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .admin-controls h3 i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .admin-btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+        }
+
+        .admin-btn:hover {
+            background-color: #e56a00;
+        }
+
+        .admin-btn i {
+            margin-right: 8px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--footer-bg);
+            padding: 50px 0 20px;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .footer-links {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: var(--text);
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .portfolio-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .footer-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .admin-actions {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .portfolio-page {
+                padding: 120px 0 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container nav-container">
+            <a href="index.html" class="logo">TK</a>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links">
+                <button class="mobile-close">
+                    <i class="fas fa-times"></i>
+                </button>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#skills">Skills</a></li>
+                <li><a href="portfolio.html" class="active">Portfolio</a></li>
+                <li><a href="index.html#testimonials">Testimonials</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+                <li>
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </li>
+            </ul>
+        </div>
+        <!-- Overlay -->
+        <div class="nav-overlay"></div>
+    </header>
+
+    <!-- Portfolio Section -->
+    <section class="portfolio-page">
+        <div class="container">
+            <h1 class="page-title">My Portfolio</h1>
+            
+            <!-- Admin Controls (Hidden by default) -->
+            <div class="admin-controls" id="adminControls">
+                <h3><i class="fas fa-cog"></i> Admin Controls</h3>
+                <div class="admin-actions">
+                    <button class="admin-btn" id="addProjectBtn">
+                        <i class="fas fa-plus"></i> Add Project
+                    </button>
+                    <button class="admin-btn" id="editProjectsBtn">
+                        <i class="fas fa-edit"></i> Edit Projects
+                    </button>
+                </div>
+            </div>
+            
+            <div class="portfolio-grid">
+                <!-- Project 1 -->
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="E-commerce Website" class="portfolio-img">
+                    <div class="portfolio-content">
+                        <h3>E-commerce Platform</h3>
+                        <p>A fully responsive e-commerce website with product filtering, cart functionality, and secure checkout process.</p>
+                        <div class="portfolio-tags">
+                            <span class="tag">React</span>
+                            <span class="tag">Node.js</span>
+                            <span class="tag">MongoDB</span>
+                            <span class="tag">Stripe API</span>
+                        </div>
+                        <div class="portfolio-links">
+                            <a href="#"><i class="fab fa-github"></i> GitHub</a>
+                            <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Analytics Dashboard" class="portfolio-img">
+                    <div class="portfolio-content">
+                        <h3>Analytics Dashboard</h3>
+                        <p>An interactive dashboard for data visualization with charts, graphs, and real-time updates.</p>
+                        <div class="portfolio-tags">
+                            <span class="tag">Vue.js</span>
+                            <span class="tag">D3.js</span>
+                            <span class="tag">Firebase</span>
+                            <span class="tag">Chart.js</span>
+                        </div>
+                        <div class="portfolio-links">
+                            <a href="#"><i class="fab fa-github"></i> GitHub</a>
+                            <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1559028012-481c04fa702d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Travel Blog" class="portfolio-img">
+                    <div class="portfolio-content">
+                        <h3>Travel Blog</h3>
+                        <p>A responsive travel blog with dynamic content, image galleries, and interactive maps.</p>
+                        <div class="portfolio-tags">
+                            <span class="tag">WordPress</span>
+                            <span class="tag">PHP</span>
+                            <span class="tag">MySQL</span>
+                            <span class="tag">Google Maps API</span>
+                        </div>
+                        <div class="portfolio-links">
+                            <a href="#"><i class="fab fa-github"></i> GitHub</a>
+                            <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 4 -->
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Task Management App" class="portfolio-img">
+                    <div class="portfolio-content">
+                        <h3>Task Management App</h3>
+                        <p>A productivity application with task organization, team collaboration, and progress tracking.</p>
+                        <div class="portfolio-tags">
+                            <span class="tag">React Native</span>
+                            <span class="tag">Redux</span>
+                            <span class="tag">Express.js</span>
+                            <span class="tag">Socket.io</span>
+                        </div>
+                        <div class="portfolio-links">
+                            <a href="#"><i class="fab fa-github"></i> GitHub</a>
+                            <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 5 -->
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Social Media Platform" class="portfolio-img">
+                    <div class="portfolio-content">
+                        <h3>Social Media Platform</h3>
+                        <p>A community platform with user profiles, content sharing, and real-time messaging.</p>
+                        <div class="portfolio-tags">
+                            <span class="tag">MERN Stack</span>
+                            <span class="tag">GraphQL</span>
+                            <span class="tag">AWS S3</span>
+                            <span class="tag">WebRTC</span>
+                        </div>
+                        <div class="portfolio-links">
+                            <a href="#"><i class="fab fa-github"></i> GitHub</a>
+                            <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 6 -->
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Fitness Tracker" class="portfolio-img">
+                    <div class="portfolio-content">
+                        <h3>Fitness Tracker</h3>
+                        <p>A health and fitness application with workout plans, progress tracking, and nutrition guidance.</p>
+                        <div class="portfolio-tags">
+                            <span class="tag">Flutter</span>
+                            <span class="tag">Firebase</span>
+                            <span class="tag">HealthKit API</span>
+                            <span class="tag">Chart.js</span>
+                        </div>
+                        <div class="portfolio-links">
+                            <a href="#"><i class="fab fa-github"></i> GitHub</a>
+                            <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="back-link">
+                <a href="index.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Home
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">Lil Tk</div>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="index.html#skills">Skills</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Lil Tk. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle?.querySelector('i');
+        
+        if (themeToggle && themeIcon) {
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                
+                if (document.body.classList.contains('dark-mode')) {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+
+            // Load saved theme
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+        }
+
+        // Admin Controls (Demo purposes - would be connected to authentication in real app)
+        const adminControls = document.getElementById('adminControls');
+        const addProjectBtn = document.getElementById('addProjectBtn');
+        const editProjectsBtn = document.getElementById('editProjectsBtn');
+        
+        // For demo purposes, show admin controls if URL has ?admin=true
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('admin') === 'true') {
+            adminControls.style.display = 'block';
+        }
+        
+        addProjectBtn?.addEventListener('click', () => {
+            alert('Add Project functionality would open a form in a real application.');
+        });
+        
+        editProjectsBtn?.addEventListener('click', () => {
+            alert('Edit Projects functionality would enable editing mode in a real application.');
+        });
+
+        // Mobile Menu Toggle - Left Side
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+        const mobileClose = document.querySelector('.mobile-close');
+        const navOverlay = document.querySelector('.nav-overlay');
+
+        if (mobileMenu && navLinks && mobileClose && navOverlay) {
+            // Open menu
+            mobileMenu.addEventListener('click', () => {
+                navLinks.classList.add('active');
+                navOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+            });
+
+            // Close menu with close button
+            mobileClose.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                navOverlay.classList.remove('active');
+                document.body.style.overflow = ''; // Restore scrolling
+            });
+
+            // Close menu with overlay click
+            navOverlay.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                navOverlay.classList.remove('active');
+                document.body.style.overflow = ''; // Restore scrolling
+            });
+
+            // Close menu when clicking on links
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                    navOverlay.classList.remove('active');
+                    document.body.style.overflow = ''; // Restore scrolling
+                });
+            });
+
+            // Close menu on escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    navOverlay.classList.remove('active');
+                    document.body.style.overflow = ''; // Restore scrolling
+                }
+            });
+        }
+    </script>
+</body>
+</html>
