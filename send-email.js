@@ -18,11 +18,11 @@ exports.handler = async function(event, context) {
         const emailData = {
             sender: {
                 name: 'Portfolio Contact Form',
-                email: 'noreply@yourdomain.com' // Use your verified sender email
+                email: 'liltk0998@gmail.com' // Use your verified sender email
             },
             to: [
                 {
-                    email: 'your-email@gmail.com', // Your receiving email
+                    email: 'liltk0998@gmail.com', // Your receiving email
                     name: 'Lil Tk'
                 }
             ],
