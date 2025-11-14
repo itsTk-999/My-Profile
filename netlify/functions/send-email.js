@@ -23,7 +23,7 @@ exports.handler = async function(event, context) {
             to: [
                 {
                     email: 'liltk0998@gmail.com', // Your receiving email
-                    name: 'Lil Tk'
+                    name: 'Kiplang'at Felix'
                 }
             ],
             replyTo: {
